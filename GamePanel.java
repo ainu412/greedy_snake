@@ -12,6 +12,9 @@ package com.hit.greedy_snake;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
 /**
  * @Auther: msb-zhaoss
  */
@@ -39,9 +42,34 @@ public class GamePanel extends JPanel {
 
     //定义一个变量来判断小蛇的方向：
     String direction = "R";//默认情况下小蛇是向右的
+    //定义一个变量判断游戏的状态：是开始的还是结束：
+    boolean isStart = false;//默认情况下游戏没有开始
 
     public GamePanel() {
         init();
+        //让焦点在面板上：
+        this.setFocusable(true);//获取焦点
+        //给面板添加一个监听：
+        this.addKeyListener(new KeyAdapter() {
+                                @Override
+                                public void keyPressed(KeyEvent e) {
+                                    super.keyPressed(e);
+                                    int keyCode = e.getKeyCode();
+                                    System.out.println(keyCode);// 在控制台打印上下左右不同按键的数字码
+                                    if(keyCode==KeyEvent.VK_SPACE){//证明你按下的是空格键：
+                                        isStart = !isStart;// 切换游戏状态
+                                        repaint();//重新绘制界面-->底层会去调用：paintComponent方法
+                                    }
+                                    if(keyCode==KeyEvent.VK_UP){
+                                    }
+                                    if(keyCode==KeyEvent.VK_DOWN){
+                                    }
+                                    if(keyCode==KeyEvent.VK_LEFT){
+                                    }
+                                    if(keyCode==KeyEvent.VK_RIGHT){
+                                    }
+                                }
+        });
     }
     //初始化：蛇头与两个蛇身
     public void init(){
@@ -87,5 +115,14 @@ public class GamePanel extends JPanel {
         for(int i=1; i<length; i++){
             Images.bodyImg.paintIcon(this,g,snakeX[i],snakeY[i]);
         }
+
+        //当游戏暂停的时候，在面板中画文字：
+        if( isStart == false) {//游戏是暂停的时候，才绘制文字：
+            g.setColor(new Color(255, 186, 90));
+            //设置：字体，加粗，字号
+            g.setFont(new Font("微软雅黑",Font.BOLD,40));
+            g.drawString("点击空格游戏开始",250,330);
+        }
+
     }
 }
