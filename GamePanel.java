@@ -36,6 +36,10 @@ public class GamePanel extends JPanel {
     int[] snakeX = new int[500];//500小蛇长度
     //定义一个数组，专门存储小蛇的头和身体对应的y轴坐标
     int[] snakeY = new int[500];//500小蛇长度
+
+    //定义一个变量来判断小蛇的方向：
+    String direction = "R";//默认情况下小蛇是向右的
+
     public GamePanel() {
         init();
     }
@@ -64,6 +68,15 @@ public class GamePanel extends JPanel {
         //换一下画笔的颜色：
         g.setColor(new Color(213, 238, 232));
         g.fillRect(10,70,770,685);
+
+        //根据小蛇的方向来画蛇头：
+        switch (direction){
+            case "L" : Images.leftImg.paintIcon(this,g,snakeX[0],snakeY[0]);break;
+            case "R" : Images.rightImg.paintIcon(this,g,snakeX[0],snakeY[0]);break;
+            case "U" : Images.upImg.paintIcon(this,g,snakeX[0],snakeY[0]);break;
+            case "D" : Images.downImg.paintIcon(this,g,snakeX[0],snakeY[0]);break;
+        }
+
         //画蛇头：
         Images.rightImg.paintIcon(this,g,snakeX[0],snakeY[0]);
         /*//画第一节身子：
