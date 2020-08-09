@@ -12,6 +12,8 @@ package com.hit.greedy_snake;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -44,6 +46,8 @@ public class GamePanel extends JPanel {
     String direction = "R";//默认情况下小蛇是向右的
     //定义一个变量判断游戏的状态：是开始的还是结束：
     boolean isStart = false;//默认情况下游戏没有开始
+    //加入一个定时器：
+    Timer timer;
 
     public GamePanel() {
         init();
@@ -71,6 +75,7 @@ public class GamePanel extends JPanel {
                                 }
         });
     }
+
     //初始化：蛇头与两个蛇身
     public void init(){
         length = 3;
@@ -83,8 +88,37 @@ public class GamePanel extends JPanel {
         //第二节身子的信息：
         snakeX[2] = 150;
         snakeY[2] = 375;
+
+        //设置定时器，让定时器每100ms执行一次操作：
+        timer = new Timer(100, new ActionListener() {
+            //相当于每100ms执行一下actionPerformed中的动作：
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //让小蛇动一下：
+                //如果游戏是开始的情况下，小蛇才会动：
+                if(isStart==true){
+                    //注意：后一节跟着前一节动：
+                    //先动身子
+                    for(int i=length-1;i>0;i--){
+                        snakeX[i] = snakeX[i-1];
+                        snakeY[i] = snakeY[i-1];
+                    }
+                    //最后动头：
+                    snakeX[0] = snakeX[0]+25;
+                    //防止小蛇出界：
+                    if(snakeX[0]>750){
+                        snakeX[0] = 25;
+                    }
+                    repaint();
+                }
+            }
+        });
+        //启动定时器
+        timer.start();
     }
 
+    //paintComponent:方法不需要我们自己去调用，系统线程会去调用，
+    //这个方法作用：所有画的动作都在这个方法中执行：
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
