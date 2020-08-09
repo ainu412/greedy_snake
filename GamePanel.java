@@ -65,12 +65,16 @@ public class GamePanel extends JPanel {
                                         repaint();//重新绘制界面-->底层会去调用：paintComponent方法
                                     }
                                     if(keyCode==KeyEvent.VK_UP){
+                                        direction = "U";
                                     }
                                     if(keyCode==KeyEvent.VK_DOWN){
+                                        direction = "D";
                                     }
                                     if(keyCode==KeyEvent.VK_LEFT){
+                                        direction = "L";
                                     }
                                     if(keyCode==KeyEvent.VK_RIGHT){
+                                        direction = "R";
                                     }
                                 }
         });
@@ -104,10 +108,24 @@ public class GamePanel extends JPanel {
                         snakeY[i] = snakeY[i-1];
                     }
                     //最后动头：
-                    snakeX[0] = snakeX[0]+25;
-                    //防止小蛇出界：
+                    switch (direction){
+                        case "R" :snakeX[0] = snakeX[0]+25;break;
+                        case "L" :snakeX[0] = snakeX[0]-25;break;
+                        case "U" :snakeY[0] = snakeY[0]-25;break;
+                        case "D" :snakeY[0] = snakeY[0]+25;break;
+                    }
+                    //防止小蛇出界：(上下左右都要进行限制)
                     if(snakeX[0]>750){
                         snakeX[0] = 25;
+                    }
+                    if(snakeX[0]<25){
+                        snakeX[0] = 750;
+                    }
+                    if(snakeY[0]<100){
+                        snakeY[0] = 725;
+                    }
+                    if(snakeY[0]>725){
+                        snakeY[0] = 100;
                     }
                     repaint();
                 }
